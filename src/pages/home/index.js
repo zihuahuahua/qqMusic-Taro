@@ -16,7 +16,8 @@ export default class Home extends Component {
       radioList: [], //电台
       songList: [], //歌单
       inputVal: '',
-      hasPlay: false // 是否正在播放
+      hasPlay: false, // 是否正在播放
+      focus: false
     }
   }
 
@@ -92,8 +93,22 @@ export default class Home extends Component {
   onInput(e) {
     const { detail: { value } } = e
     this.setState({
-      inputVal: value
+      inputVal: value,
     })
+  }
+  inputFocus() {
+    this.setState({ focus: true })
+  }
+  // 搜索
+  async searchSong() {
+    const { inputVal } = this.state
+    const params = {
+      key: '579621905',
+      s: inputVal,
+      type: 'song'
+    }
+    const { data: { data } } = await home.searchSongs(params)
+    console.log(data, 'search==')
   }
   // 页面跳转
   navigateTo(type, data) {
@@ -124,18 +139,20 @@ export default class Home extends Component {
     };
   }
   render() {
-    const { banner, radioList, songList, inputVal, hasPlay } = this.state
+    const { banner, radioList, songList, inputVal, hasPlay, focus } = this.state
+    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px' }
     return (
       <View className="container">
         {/* 搜索框 */}
-        <View className="searchBar">
-          <View className="searchBarbox">
+        <View className="searchBar" style={focus ? searchFocus : null}>
+          <View className="searchBarbox" style={{ width: focus ? '80%' : '96%' }}>
             <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
-            <Input type="text" placeholder="搜索歌曲、歌手、专辑" className="searchInput" value={inputVal} onInput={this.onInput.bind(this)} />
+            <Input type="text" placeholder="搜索歌曲、歌手、专辑" className="searchInput" value={inputVal} onInput={this.onInput.bind(this)} onFocus={this.inputFocus.bind(this)} />
             {inputVal.length > 0 &&
-              <Icon type="clear" size="14"></Icon>
+              <Icon type="clear" size="14" className="clear"></Icon>
             }
           </View>
+          {focus && <View className="comfirm">确定</View>}
         </View>
         <View className="main">
           {/* 轮播图 */}
@@ -159,7 +176,7 @@ export default class Home extends Component {
               )}
             </View>
           </View >
-          {/* < !--热门歌单 --> */}
+          {/* 热门歌单 */}
           <View className="RSList">
             <View className="title">热门歌单</View>
             <View className="listCon">

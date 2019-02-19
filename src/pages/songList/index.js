@@ -44,7 +44,7 @@ export default class songList extends Component {
       id: songId
     }
     const { data: { data } } = await home.getSongList(params)
-    console.log(data, 'datatatataat')
+    // console.log(data, 'datatatataat')
     this.setState({
       songsDetail: data
     })
