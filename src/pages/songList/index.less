@@ -1,0 +1,122 @@
+page{
+  font-family: PingFangSC-Regular;
+}
+.headerTitle{
+  position: relative;
+  .filterBox{
+    transform: scale(2);
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+    .filterImg{
+      width: 100%;
+    }
+  }
+  .headerContent{
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px 80px;
+    box-sizing: border-box;
+    .songsImg{
+      width: 200px;
+      height: 200px;
+    }
+    .desBox{
+      width: 340px;
+      .songsName{
+        color: #fff;
+        font-size: 32px;
+      }
+      .songsAuth{
+        color:#fff;
+        font-size: 26px;
+      }
+      .desc{
+        width: 100%;
+        margin-top: 28px;
+        font-size: 20px;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+.list{
+  position: absolute;
+  top: 300px;
+  width: 100%;
+  background-color: #fff;
+}
+.listTop{
+  padding: 14px 30px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .leftBox{
+    display: flex;
+    align-items: center;
+    .playAll{
+      width: 40px;
+      height: 40px;
+    }
+    .playText{
+      margin-left: 24px;
+      font-size: 28px;
+    }
+  }
+  .rightBox{
+    display: flex;
+    align-items: center;
+    .playlist{
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+.listCon{
+  .listItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    border-top: 1px solid #cfcfcf;
+    .leftBox{
+      display: flex;
+      align-items: center;
+      .num{
+        width: 70px;
+        color: #000;
+        font-size: 26px;
+        text-align: center;
+      }
+      .nameBox{
+        display: flex;
+        flex-direction: column;
+        .songName{
+          color: #000;
+          font-size: 26px;
+        }
+        .singer{
+          color: #737373;
+          font-size: 20px;
+        }
+      }
+    }
+    .rightBox{
+      display: flex;
+      align-items: center;
+      .playIcon{
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
