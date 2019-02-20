@@ -87,6 +87,7 @@ export default class Home extends Component {
       Taro.hideLoading()
     } catch (error) {
       console.log(error, 'err==')
+      this.getHotSongList()
     }
   }
   // 键入搜索
