@@ -103,16 +103,14 @@ export default class Home extends Component {
   // 搜索
   async searchSong() {
     const { inputVal } = this.state
-    // const params = {
-    //   key: '579621905',
-    //   s: inputVal,
-    //   type: 'song'
-    // }
-    // const { data: { data } } = await home.searchSongs(params)
-    // console.log(data, 'search==')
-    Taro.navigateTo({
-      url: `/pages/search/index?val=${inputVal}`
-    })
+    inputVal.trim().length !== 0 ?
+      Taro.navigateTo({
+        url: `/pages/search/index?val=${inputVal}`
+      }) :
+      Taro.showToast({
+        title: '请输入搜索内容~',
+        icon: 'none'
+      })
   }
   // 页面跳转
   navigateTo(type, data) {
@@ -145,14 +143,20 @@ export default class Home extends Component {
   render() {
     const { banner, radioList, songList, inputVal, hasPlay, focus } = this.state
     const searchBarFocus = { justifyContent: 'flex-start', paddingLeft: '10px' }
-    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px',width: '80%' }
+    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px', width: '80%' }
     return (
       <View className="container">
         {/* 搜索框 */}
         <View className="searchBar" style={focus ? searchBarFocus : null}>
           <View className="searchBarbox" style={focus ? searchFocus : null}>
             <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
-            <Input type="text" placeholder="搜索歌曲、歌手、专辑" className="searchInput" value={inputVal} onInput={this.onInput.bind(this)} onFocus={this.inputFocus.bind(this)} />
+            <Input
+              placeholder="搜索歌曲、歌手、专辑"
+              className="searchInput"
+              value={inputVal}
+              onInput={this.onInput.bind(this)}
+              onFocus={this.inputFocus.bind(this)}
+            />
             {inputVal.length > 0 &&
               <Icon type="clear" size="14" className="clear"></Icon>
             }
@@ -161,10 +165,21 @@ export default class Home extends Component {
         </View>
         <View className="main">
           {/* 轮播图 */}
-          <Swiper className="banner" indicatorDots="true" indicatorActiveColor="#fff" autoplay='true' interval='3000' circular='true'>
+          <Swiper
+            className="banner"
+            indicatorDots="true"
+            indicatorActiveColor="#fff"
+            autoplay='true'
+            interval='3000'
+            circular='true'
+          >
             {banner && banner.map((item, index) =>
               <SwiperItem key={index}>
-                <Image src={item.picUrl} className="bannerImage" onClick={this.navigateTo.bind(this, 'banner', item.linkUrl)}></Image>
+                <Image
+                  src={item.picUrl}
+                  className="bannerImage"
+                  onClick={this.navigateTo.bind(this, 'banner', item.linkUrl)}
+                ></Image>
               </SwiperItem>
             )}
           </Swiper>
@@ -194,7 +209,7 @@ export default class Home extends Component {
                     <Image className="radioIcon" src={require("../../assert/music.png")}></Image>
                     <View className="playCount">{item.playCount}</View>
                   </View>
-                  <Image className="radioPlay" data-id={item.id} src={require("../../assert/play.png")} catchtap='selectHot'></Image>
+                  <Image className="radioPlay" src={require("../../assert/play.png")}></Image>
                 </View>
               )}
             </View>
