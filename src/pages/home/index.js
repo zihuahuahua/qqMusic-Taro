@@ -99,16 +99,20 @@ export default class Home extends Component {
   inputFocus() {
     this.setState({ focus: true })
   }
+
   // 搜索
   async searchSong() {
     const { inputVal } = this.state
-    const params = {
-      key: '579621905',
-      s: inputVal,
-      type: 'song'
-    }
-    const { data: { data } } = await home.searchSongs(params)
-    console.log(data, 'search==')
+    // const params = {
+    //   key: '579621905',
+    //   s: inputVal,
+    //   type: 'song'
+    // }
+    // const { data: { data } } = await home.searchSongs(params)
+    // console.log(data, 'search==')
+    Taro.navigateTo({
+      url: `/pages/search/index?val=${inputVal}`
+    })
   }
   // 页面跳转
   navigateTo(type, data) {
@@ -140,19 +144,20 @@ export default class Home extends Component {
   }
   render() {
     const { banner, radioList, songList, inputVal, hasPlay, focus } = this.state
-    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px' }
+    const searchBarFocus = { justifyContent: 'flex-start', paddingLeft: '10px' }
+    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px',width: '80%' }
     return (
       <View className="container">
         {/* 搜索框 */}
-        <View className="searchBar" style={focus ? searchFocus : null}>
-          <View className="searchBarbox" style={{ width: focus ? '80%' : '96%' }}>
+        <View className="searchBar" style={focus ? searchBarFocus : null}>
+          <View className="searchBarbox" style={focus ? searchFocus : null}>
             <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
             <Input type="text" placeholder="搜索歌曲、歌手、专辑" className="searchInput" value={inputVal} onInput={this.onInput.bind(this)} onFocus={this.inputFocus.bind(this)} />
             {inputVal.length > 0 &&
               <Icon type="clear" size="14" className="clear"></Icon>
             }
           </View>
-          {focus && <View className="comfirm">确定</View>}
+          {focus && <View className="comfirm" onClick={this.searchSong.bind(this)}>确定</View>}
         </View>
         <View className="main">
           {/* 轮播图 */}

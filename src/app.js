@@ -15,6 +15,7 @@ class App extends Component {
       'pages/home/index',
       'pages/webview/index',
       'pages/songList/index',
+      'pages/search/index'
     ],
     window: {
       backgroundTextStyle: 'light',

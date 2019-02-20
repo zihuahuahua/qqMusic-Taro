@@ -1,0 +1,77 @@
+page {
+  width: 100%;
+  padding-top: 68px;
+}
+.searchBar{
+  position:fixed;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 60px;
+  padding-bottom: 8px;
+  display:flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10px;
+  background-color:#31c27c;
+  .searchBarbox{
+    position:relative;
+    width: 80%;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10PX;
+    box-sizing: border-box;
+    border-radius:15px;
+    background:#fff;
+    border:1px solid #e6e6ea;
+    .searchInput{
+      max-width: 400px;
+      flex-grow: 0;
+      font-size: 24px;
+    }
+    .clear{
+      position: absolute;
+      right: 18px;
+    }
+  }
+  .comfirm{
+    width: 68px;
+    padding: 10px;
+    margin-left: 32px;
+    border-radius: 15px;
+    font-size: 28px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+    background-color: #009933;
+  }
+}
+.listItem{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 30px;
+  border-top: 1px solid #cfcfcf;
+  .leftBox{
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+    .songName{
+      color: #000;
+      font-size: 26px;
+    }
+    .singer{
+      color: #737373;
+      font-size: 20px;
+    }
+  }
+  .rightBox{
+    display: flex;
+    align-items: center;
+    .playIcon{
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
