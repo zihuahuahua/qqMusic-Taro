@@ -6,7 +6,9 @@ import home from '../../api/home'
 import 'taro-ui/dist/style/index.scss'
 export default class Home extends Component {
   config = {
-    navigationBarTitleText: '搜索'
+    navigationBarTitleText: '搜索',
+    enablePullDownRefresh: true,
+    onReachBottomDistance: 100,
   }
 
   constructor(props) {
@@ -117,7 +119,11 @@ export default class Home extends Component {
       Taro.hideLoading()
     } catch (error) {
       console.log(error, 'err')
-      this.searchSong()
+      Taro.showToast({
+        title: '网络较慢，请稍后重试',
+        icon: 'none'
+      })
+      Taro.hideLoading()
     }
   }
   // 触底加载

@@ -5,7 +5,8 @@ import home from '../../api/home'
 
 export default class Home extends Component {
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '首页',
+    enablePullDownRefresh: true,
   }
 
   constructor(props) {
@@ -87,7 +88,10 @@ export default class Home extends Component {
       Taro.hideLoading()
     } catch (error) {
       console.log(error, 'err==')
-      this.getHotSongList()
+      Taro.showToast({
+        title: '网络较慢，请稍后重试',
+        icon: 'none'
+      })
     }
   }
   // 键入搜索
