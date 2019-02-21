@@ -153,14 +153,14 @@ export default class Home extends Component {
       <View className="container">
         {/* 搜索框 */}
         <View className="searchBar" style={focus ? searchBarFocus : null}>
-          <View className="searchBarbox" style={focus ? searchFocus : null}>
+          <View className="searchBarbox" style={focus ? searchFocus : null} onClick={this.inputFocus.bind(this)}>
             <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
             <Input
               placeholder="搜索歌曲、歌手、专辑"
               className="searchInput"
               value={inputVal}
               onInput={this.onInput.bind(this)}
-              onFocus={this.inputFocus.bind(this)}
+              // onFocus={this.inputFocus.bind(this)}
             />
             {inputVal.length > 0 &&
               <Icon type="clear" size="14" className="clear"></Icon>

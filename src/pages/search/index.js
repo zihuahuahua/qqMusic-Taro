@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Image, Icon, Input, Swiper, SwiperItem } from '@tarojs/components'
+import { View, Image, Icon, Input, Swiper, SwiperItem, RichText } from '@tarojs/components'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import './index.less'
 import home from '../../api/home'
@@ -110,10 +110,14 @@ export default class Home extends Component {
       })
       if (type == 'lrc') {
         for (let i = 0; i < data.length; i++) {
-          let content = data[i].content
+          let content = data[i].lyric
           let contents = content.split('\\n')
-          data[i].content = contents
-          // console.log()
+          // for (let j = 0; j < contents.length; j++) {
+          //   let text = contents[j].replace(/em/g, "Text")
+          //   contents[j] = text
+          // }
+          data[i].lyric = contents
+
         }
       }
       Taro.hideLoading()
@@ -278,10 +282,22 @@ export default class Home extends Component {
                     <View className="songName">{item.songname}</View>
                     <View className="singer">{item.albumname}-{item.singer[0].name}</View>
                     <View className="lrcs">
-                      {item.content.map((Item, l) =>
-                        <View>
-                          {l < 3 && <View className="lrc" key={l}>{Item}</View>}
-                        </View>
+                      {item.lyric.map((Item, l) => {
+                        const { inputVal } = this.state
+                        let arr = Item.split(`<em>${inputVal}</em>`)
+                        let arr_re = Item.split(`<em>${inputVal}</em>`)
+                        for (let k = 0; k < arr.length - 1; k++) {
+                          arr_re.splice(k + 1, 0, `${inputVal}`)
+                          // console.log(arr_re,'arr_re')
+                        }
+                        return (
+                          <View className="lrc" key={l}>
+                            {arr_re.length>0 && arr_re.map((v,j)=>
+                              <Text key={j} className={v==inputVal?'bold':''}>{v}</Text>
+                              )}
+                          </View>
+                        )
+                      }
                       )}
                     </View>
                   </View>
