@@ -1,6 +1,6 @@
 import fetch from './fetch'
 export default class home extends fetch {
-  //  排行
+  // 排行
   static songListCategory(data) {
     const url = '/music/tencent/songListCategory'
     return this.get(url, data)
@@ -15,8 +15,14 @@ export default class home extends fetch {
     const url = '/music/tencent/songList'
     return this.get(url, data)
   }
+  // 搜索
   static searchSongs(data) {
     const url = '/music/tencent/search'
+    return this.get(url, data)
+  }
+  // 获取歌曲信息
+  static getSongs(data) {
+    const url = '/music/tencent/song'
     return this.get(url, data)
   }
 }

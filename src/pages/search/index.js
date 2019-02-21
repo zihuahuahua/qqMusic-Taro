@@ -112,12 +112,7 @@ export default class Home extends Component {
         for (let i = 0; i < data.length; i++) {
           let content = data[i].lyric
           let contents = content.split('\\n')
-          // for (let j = 0; j < contents.length; j++) {
-          //   let text = contents[j].replace(/em/g, "Text")
-          //   contents[j] = text
-          // }
           data[i].lyric = contents
-
         }
       }
       Taro.hideLoading()

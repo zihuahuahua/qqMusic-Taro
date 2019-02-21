@@ -37,7 +37,6 @@ export default class songList extends Component {
   componentDidHide() { }
 
   async getList() {
-    const _this = this
     const { songId } = this.state
     const params = {
       key: '579621905',
@@ -47,6 +46,11 @@ export default class songList extends Component {
     // console.log(data, 'datatatataat')
     this.setState({
       songsDetail: data
+    })
+  }
+  navigateTo(id){
+    Taro.navigateTo({
+      url: `/pages/playSong/index?id=${id}`
     })
   }
   // 分享
@@ -86,7 +90,7 @@ export default class songList extends Component {
           </View>
           <View className="listCon">
             {songsDetail.songs && songsDetail.songs.map((item, index) =>
-              <View key={index} className="listItem">
+              <View key={index} className="listItem" onClick={this.navigateTo.bind(this,item.id)}>
                 <View className="leftBox">
                   <View className="num">{index + 1}</View>
                   <View className="nameBox">
