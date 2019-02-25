@@ -1,6 +1,7 @@
 .container{
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
   .bgCon{
     position: absolute;
     width: 100%;
@@ -23,6 +24,7 @@
   }
   .main{
     position: relative;
+    height: 850px;
     padding-top: 30px;
     text-align: center;
     color: #fff;
@@ -35,34 +37,123 @@
         font-size: 24px;
       }
     }
-    .songImg{
-      width: 460px;
-      height: 460px;
-      border-radius: 50%;
+    .stopAnim {
+      animation-play-state: paused !important;
     }
-    .animate{
-      -webkit-animation: rotate-center 8s linear infinite;
-              animation: rotate-center 8s linear infinite;
+    .playIrcCon{
+      flex: 1;
+      overflow: auto;
+      min-height: 700rpx;
+      width: 100%;
+      .playIrc {
+        width: 100%;
+        text-align: center;
+        font-size: 28rpx;
+        color:#ffffffb3;
+        height: 900rpx;
+        .playLight{
+          color:red;
+        }
+        view {
+          margin: 20rpx 0;
+        }
+      }
+    }
+    .playImgCon {
+      flex-grow: 1;
+      position: relative;
+      width: 750rpx;
+      height: 580rpx;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: round 20s linear infinite;
+      .playImg {
+        width: 450rpx;
+        height: 450rpx;
+        border-radius: 100%;
+        border: 4Px solid #ffffff4d;
+        z-index: 2;
+      }
+      .playImgBefore {
+        border-radius: 100%;
+        position: absolute;
+        color: currentColor;
+        width: 650rpx;
+        height: 650rpx;
+        animation: boneus 2s ease infinite;
+        background: radial-gradient( transparent 230rpx, #ffffffb3 234rpx, transparent 236rpx, transparent 266rpx, #ffffffb3 266rpx, transparent 270rpx, transparent 320rpx, #ffffffb3 322rpx, transparent 324rpx, transparent)
+      }
+      .playCic,
+      .playCic2,
+      .playCic3 {
+        width: 20rpx;
+        height: 20rpx;
+        position: absolute;
+        border-radius: 100%;
+        background: radial-gradient(gainsboro, transparent);
+        right: 50%;
+      }
+      .playCic {
+        top: -5rpx;
+      }
+      .playCic2 {
+        top: 50%;
+        right: 50rpx;
+      }
+      .playCic3 {
+        top: 450rpx;
+        left: 123rpx;
+      } 
+    }
+  }
+  .bottomBar{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    .sliderCon {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      font-size: 20rpx;
+      padding: 0 30rpx 10rpx;
+      box-sizing: border-box;
+      color: white;
+    }
+    .playSlider {
+      flex-grow: 1;
+    }
+    .iconCon {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      padding-bottom: 30rpx;
+      .iconfont {
+        font-size: 52rpx;
+        color: white;
+      }
     }
   }
 }
-@-webkit-keyframes rotate-center {
-  0% {
-    -webkit-transform: rotate(0);
-            transform: rotate(0);
+
+@keyframes round {
+  from {
+      transform: rotate(0deg);
   }
-  100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+  to {
+      transform: rotate(360deg);
   }
 }
-@keyframes rotate-center {
+@keyframes boneus {
   0% {
-    -webkit-transform: rotate(0);
-            transform: rotate(0);
+      transform: scale(1);
+  }
+  50% {
+      transform: scale(1.1);
+      opacity: 0.5;
   }
   100% {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
+      transform: scale(1);
   }
 }
