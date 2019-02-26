@@ -14,13 +14,15 @@ export default class webView extends Component {
 
     this.state = {
       type: '',
-      id: '',
-      song: [],
-      togShow: true,
-      isPlaying: true,
-      playTime: 0,
-      totalTime: 0,
-      playing: null
+      id: '', // 歌曲id
+      song: [], // 歌曲信息
+      togShow: true, // toggle
+      isPlaying: true, 
+      playTime: 0, // 播放时间
+      totalTime: 0, // 总时间
+      lrcMap:[], // 歌词
+      playing: null,
+      scTop: 0
     }
   }
 
@@ -41,17 +43,28 @@ export default class webView extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-
+  // 播放 样式
   setPlay(index = 0) {
-    let { playing, totalTime } = this.state
+    let { playing, totalTime, lrcMap } = this.state
+    let scTop = 0
     let temp = setInterval(() => {
       if (index > totalTime) {
         clearInterval(playing);
         return;
       }
       ++index;
+
+      lrcMap.forEach((item, i) => {
+        if (lrcMap[i - 1] && lrcMap[i + 1]) {
+          if (lrcMap[i - 1][0] <= index && lrcMap[i + 1][0] >= index) {
+            scTop = (i - 1) * 60
+          }
+        }
+      })
       this.setState({
-        playTime: `0${Math.floor(index / 60)}:${index >= 60 ? index % 60 : (index < 10 ? '0' + index : index)}`, playValue: index
+        playTime: `0${Math.floor(index / 60)}:${index >= 60 ? index % 60 : (index < 10 ? '0' + index : index)}`,
+        playValue: index,
+        scTop: scTop
       })
     }, 1000);
     this.setState({ playing: temp })
@@ -63,6 +76,7 @@ export default class webView extends Component {
   toggleShow() {
     this.setState({ togShow: !this.state.togShow })
   }
+  // 获取歌曲信息
   async getSongsDetail() {
     const { id } = this.state
     const params = {
@@ -71,10 +85,26 @@ export default class webView extends Component {
     }
     const { data: { data } } = await home.getSongs(params)
     console.log(data, 'songdata')
-    this.setState({
-      song: data,
-      totalTime: data.time
-    },()=>this.setPlay())
+    // 获取歌词
+    Taro.request({ url: data.lrc }).then(res => {
+      let lrc = res.data
+      let arr = lrc.split('\n')
+      let temp
+      let lrcMap = arr.map(item => {
+        item = item.split(']')
+        if (item[1]) {
+          temp = item[0].match(/\d{2}/g)
+          item[0] = temp[0] * 60 + Number(temp[1])
+        }
+        return item;
+      })
+      // console.log(lrcMap, 'mapppp')
+      this.setState({
+        song: data,
+        totalTime: data.time,
+        lrcMap: lrcMap
+      }, () => this.setPlay())
+    })
   }
   // 分享
   onShareAppMessage() {
@@ -85,7 +115,7 @@ export default class webView extends Component {
     };
   }
   render() {
-    const { song, togShow, isPlaying, playTime, playValue, totalTime } = this.state
+    const { song, togShow, isPlaying, playTime, playValue, totalTime, lrcMap, scTop } = this.state
     return (
       <View className="container">
         <View className="bgCon">
@@ -99,19 +129,14 @@ export default class webView extends Component {
               <View className="singer">{song.singer}</View>
             </View>
             <View onClick={this.toggleShow.bind(this)} className={`playImgCon ${isPlaying ? '' : 'stopAnim'}`}>
-              <View className={`playImgBefore ${isPlaying ? '' : 'stopAnim'}`}>
-                <View className='playCic'></View>
-                <View className='playCic2'></View>
-                <View className='playCic3'></View>
-              </View>
               <Image className='playImg' src={song.pic} />
             </View>
           </View>
           : <View onClick={this.toggleShow.bind(this)} className='playIrcCon'>
-            <ScrollView className='playIrc' id='ircView' scroll-y='true' scroll-top={`${this.state.scTop}rpx`}>
+            <ScrollView className='playIrc' scrollWithAnimation={true} scroll-y={true} scroll-top={`${scTop}rpx`}>
               <View style='height:400rpx'></View>
-              {this.state.msP.map((item, idx) => {
-                return (<View className={this.state.scTop == idx * 60 ? 'playLight' : ''} key={idx}>{item[1]}</View>)
+              {lrcMap.map((item, i) => {
+                return (<View className={scTop == i * 60 ? 'playLight' : ''} key={i}>{item[1]}</View>)
               })}
             </ScrollView>
           </View>
