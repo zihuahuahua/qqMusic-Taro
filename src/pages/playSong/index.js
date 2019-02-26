@@ -63,7 +63,7 @@ export default class webView extends Component {
         }
       })
       this.setState({
-        playTime: `0${Math.floor(index / 60)}:${index >= 60 ? index % 60 : (index < 10 ? '0' + index : index)}`,
+        playTime: `0${Math.floor(index / 60)}:${index >= 60 ? index % 60 < 10 ? '0' + (index % 60) : index % 60 : (index < 10 ? '0' + index : index)}`,
         playValue: index,
         scTop: scTop
       })
@@ -71,7 +71,7 @@ export default class webView extends Component {
     this.setState({ playing: temp })
   }
   getTotalTime(time) {
-    return `0${Math.floor(time / 60)}:${time >= 60 ? time % 60 : (time < 10 ? '0' + time : time)}`
+    return `0${Math.floor(time / 60)}:${time >= 60 ? time % 60 < 10 ? '0' + (time % 60) : time % 60 : (time < 10 ? '0' + time : time)}`
   }
   // toggle 是否显示歌词
   toggleShow() {
@@ -110,6 +110,10 @@ export default class webView extends Component {
           temp = item[0].match(/\d{2}/g)
           item[0] = temp[0] * 60 + Number(temp[1])
         }
+        item.forEach(i => {
+          typeof (i) == String && i.replace(/\&apos;/g, "'")
+        })
+        // console.log(item,'=================')
         return item;
       })
       // 歌曲播放
