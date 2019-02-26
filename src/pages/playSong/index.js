@@ -17,12 +17,13 @@ export default class webView extends Component {
       id: '', // 歌曲id
       song: [], // 歌曲信息
       togShow: true, // toggle
-      isPlaying: true, 
+      isPlaying: true,
       playTime: 0, // 播放时间
       totalTime: 0, // 总时间
-      lrcMap:[], // 歌词
+      lrcMap: [], // 歌词
       playing: null,
-      scTop: 0
+      scTop: 0, // 歌词滚动
+      audioCtx: null, // audio 
     }
   }
 
@@ -72,9 +73,22 @@ export default class webView extends Component {
   getTotalTime(time) {
     return `0${Math.floor(time / 60)}:${time >= 60 ? time % 60 : (time < 10 ? '0' + time : time)}`
   }
-  // toggle
+  // toggle 是否显示歌词
   toggleShow() {
     this.setState({ togShow: !this.state.togShow })
+  }
+  // toggle 是否播放
+  togglePlay() {
+    const { isPlaying, playing, audioCtx, playValue } = this.state
+    this.setState({ isPlaying: !isPlaying });
+    if (isPlaying) {
+      clearInterval(playing);
+      audioCtx.pause()
+    }
+    else {
+      this.setPlay(playValue)
+      audioCtx.play()
+    };
   }
   // 获取歌曲信息
   async getSongsDetail() {
@@ -98,11 +112,23 @@ export default class webView extends Component {
         }
         return item;
       })
-      // console.log(lrcMap, 'mapppp')
+      // 歌曲播放
+      const audioCtx = Taro.createInnerAudioContext()
+      audioCtx.autoplay = true
+      audioCtx.loop = false
+      audioCtx.src = data.url
+      audioCtx.onPlay(() => {
+        console.log('开始播放')
+      })
+      audioCtx.onError((res) => {
+        console.log(res.errMsg)
+        console.log(res.errCode)
+      })
       this.setState({
         song: data,
         totalTime: data.time,
-        lrcMap: lrcMap
+        lrcMap: lrcMap,
+        audioCtx: audioCtx
       }, () => this.setPlay())
     })
   }
