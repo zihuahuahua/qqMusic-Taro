@@ -1,6 +1,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, Icon, Input, Swiper, SwiperItem } from '@tarojs/components'
+import { AtSearchBar } from 'taro-ui'
 import './index.less'
+// import "taro-ui/dist/style/components/search-bar.scss";
 import home from '../../api/home'
 
 export default class Home extends Component {
@@ -96,9 +98,8 @@ export default class Home extends Component {
   }
   // 键入搜索
   onInput(e) {
-    const { detail: { value } } = e
     this.setState({
-      inputVal: value,
+      inputVal: e,
     })
   }
   inputFocus() {
@@ -152,21 +153,15 @@ export default class Home extends Component {
     return (
       <View className="container">
         {/* 搜索框 */}
-        <View className="searchBar" style={focus ? searchBarFocus : null}>
-          <View className="searchBarbox" style={focus ? searchFocus : null} onClick={this.inputFocus.bind(this)}>
-            <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
-            <Input
-              placeholder="搜索歌曲、歌手、专辑"
-              className="searchInput"
-              value={inputVal}
-              onInput={this.onInput.bind(this)}
-              // onFocus={this.inputFocus.bind(this)}
-            />
-            {inputVal.length > 0 &&
-              <Icon type="clear" size="14" className="clear"></Icon>
-            }
-          </View>
-          {focus && <View className="comfirm" onClick={this.searchSong.bind(this)}>确定</View>}
+        <View className="searchBar">
+          <AtSearchBar
+            placeholder="搜索歌曲、歌手、专辑"
+            actionName='搜索'
+            value={inputVal}
+            onChange={this.onInput.bind(this)}
+            onActionClick={this.searchSong.bind(this)}
+            className="search"
+          />
         </View>
         <View className="main">
           {/* 轮播图 */}

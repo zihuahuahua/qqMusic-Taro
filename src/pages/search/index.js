@@ -3,7 +3,6 @@ import { View, Image, Icon, Input, Swiper, SwiperItem, RichText } from '@tarojs/
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import './index.less'
 import home from '../../api/home'
-import 'taro-ui/dist/style/index.scss'
 export default class Home extends Component {
   config = {
     navigationBarTitleText: '搜索',

@@ -3,6 +3,7 @@ import Home from './pages/home'
 import { Provider } from '@tarojs/mobx'
 import '@tarojs/async-await'
 import './app.less'
+import 'taro-ui/dist/style/index.scss'
 import'./icon.scss'
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
