@@ -121,14 +121,13 @@ export default class webView extends Component {
       // 双语歌词
       let lrcArr = []
       lrcMap.forEach(v => {
-        if (typeof (v[0]) == 'number' && v[1]!=='//') {
-          lrcArr.push(v)
-        }
+        (typeof (v[0]) == 'number' && v[1]!=='//')  && (lrcArr.push(v))
       })
       lrcArr.sort(function(a,b){
         return a[0] - b[0]
       })
       lrcMap = lrcArr
+      
       // 歌曲播放
       const audioCtx = Taro.createInnerAudioContext()
       audioCtx.autoplay = true
