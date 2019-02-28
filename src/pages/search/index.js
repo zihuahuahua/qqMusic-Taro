@@ -88,10 +88,6 @@ export default class Home extends Component {
       inputVal: ''
     })
   }
-  // 输入框聚焦
-  inputFocus() {
-    this.setState({ focus: true })
-  }
   // 搜索
   async searchSong(searchType) {
     const { inputVal, currentPage, type } = this.state

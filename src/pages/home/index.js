@@ -15,12 +15,13 @@ export default class Home extends Component {
     super(props)
 
     this.state = {
-      banner: [], //轮播图
-      radioList: [], //电台
-      songList: [], //歌单
+      banner: [], // 轮播图
+      radioList: [], // 电台
+      songList: [], // 歌单
       inputVal: '',
       hasPlay: false, // 是否正在播放
-      focus: false
+      showHotkey: false, // 是否显示搜索热词 
+      hotkey: [] // 热词列表
     }
   }
 
@@ -31,43 +32,6 @@ export default class Home extends Component {
   componentDidMount() {
     this.getHomeList()
     this.getHotSongList()
-    // // 模拟数据
-    // var data = {
-    //   "slider": [{
-    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=004ZGlrw3Me8eI",
-    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155264.jpg",
-    //     "id": 19857
-    //   }, {
-    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=003vVUT83SaF4l",
-    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155138.jpg",
-    //     "id": 19858
-    //   }, {
-    //     "linkUrl": "https://y.qq.com/m/digitalbum/gold/index.html?openinqqmusic=1_video=true&id=5447522&g_f=shoujijiaodian",
-    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155430.jpg",
-    //     "id": 19853
-    //   }, {
-    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=000uoyVq093DIY",
-    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155139.jpg",
-    //     "id": 19859
-    //   }, {
-    //     "linkUrl": "https://y.qq.com/apg/612/index.html?ADTAG=JDT&openinqqmusic=1",
-    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155328.jpg",
-    //     "id": 19850
-    //   }],
-    //   "radioList": [{
-    //     "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_199_13_1.jpg",
-    //     "Ftitle": "热歌",
-    //     "radioid": 199
-    //   }, {
-    //     "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg",
-    //     "Ftitle": "一人一首招牌歌",
-    //     "radioid": 307
-    //   }]
-    // }
-    // this.setState({
-    //   banner: data.slider,
-    //   radioList: data.radioList
-    // })
   }
 
   componentWillUnmount() { }
@@ -79,15 +43,19 @@ export default class Home extends Component {
   // 首页信息
   async getHomeList() {
     try {
-      const params = { type: 1 }
+      const params = { urlType: 1 }
       const { data: { data } } = await home.getHomeList(params)
-      console.log(data, 'datatatatat')
+      // console.log(data, 'datatatatat')
       this.setState({
         banner: data.slider,
         radioList: data.radioList
       })
     } catch (error) {
       console.log(error, 'err')
+      Taro.showToast({
+        title: '网络较慢，请稍后重试',
+        icon: 'none'
+      })
     }
   }
   // 热门歌单
@@ -112,6 +80,15 @@ export default class Home extends Component {
       })
     }
   }
+  // 搜索热词
+  async getHotKey() {
+    const params = { urlType: 1 }
+    const { data: { data: { hotkey } } } = await home.gethotkey(params)
+    // console.log(hotkey, 'datatat')
+    this.setState({
+      hotkey: hotkey
+    })
+  }
   // 键入搜索
   onInput(e) {
     this.setState({
@@ -119,9 +96,17 @@ export default class Home extends Component {
     })
   }
   inputFocus() {
-    this.setState({ focus: true })
+    this.setState({
+      showHotkey: true
+    })
+    this.getHotKey()
   }
-
+  // 选择热词
+  choosekey(data) {
+    this.setState({
+      inputVal: data
+    })
+  }
   // 搜索
   async searchSong() {
     const { inputVal } = this.state
@@ -163,9 +148,7 @@ export default class Home extends Component {
     };
   }
   render() {
-    const { banner, radioList, songList, inputVal, hasPlay, focus } = this.state
-    const searchBarFocus = { justifyContent: 'flex-start', paddingLeft: '10px' }
-    const searchFocus = { justifyContent: 'flex-start', paddingLeft: '10px', width: '80%' }
+    const { banner, radioList, songList, inputVal, hasPlay, showHotkey, hotkey } = this.state
     return (
       <View className="container">
         {/* 搜索框 */}
@@ -176,10 +159,18 @@ export default class Home extends Component {
             value={inputVal}
             onChange={this.onInput.bind(this)}
             onActionClick={this.searchSong.bind(this)}
+            onFocus={this.inputFocus.bind(this)}
             className="search"
           />
         </View>
-        <View className="main">
+        {showHotkey &&
+          <View className="whiteBoard">
+            {hotkey && hotkey.map((item, index) =>
+              <View key={index} className="keyItem" onClick={this.choosekey.bind(this,item.k)}>{item.k}</View>
+            )}
+          </View>
+        }
+        {!showHotkey && <View className="main">
           {/* 轮播图 */}
           <Swiper
             className="banner"
@@ -230,7 +221,7 @@ export default class Home extends Component {
               )}
             </View>
           </View>
-        </View>
+        </View>}
         {/* 底部播放 */}
         <View className="bottomPlay">
           {hasPlay && <View className="plays">

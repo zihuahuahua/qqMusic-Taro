@@ -31,4 +31,10 @@ export default class home extends fetch {
     const url = '/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
     return this.get(url, data)
   }
+
+  // 获取搜索热词
+  static gethotkey(data) {
+    const url = '/splcloud/fcgi-bin/gethotkey.fcg'
+    return this.get(url, data)
+  }
 }

@@ -2,12 +2,16 @@ import Taro, { Component } from '@tarojs/taro'
 // import { get } from 'https';
 export default class fetch {
   static request(method, url, data, contType) {
-    const { type = 0 } = data
+    const { urlType = 0 } = data
+    for (const key in data) {
+      key == 'urlType' && (delete data[key])
+
+    }
     const baseurl = 'https://api.bzqll.com'
     const _baseurl = 'https://c.y.qq.com'
 
     let params = {
-      url: type==0?`${baseurl}${url}`:`${_baseurl}${url}`,
+      url: urlType == 0 ? `${baseurl}${url}` : `${_baseurl}${url}`,
       data: data,
       method: method,
       header: {
