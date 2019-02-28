@@ -28,7 +28,6 @@ export default class webView extends Component {
   }
 
   componentWillMount() {
-
   }
 
   componentDidMount() {
@@ -110,12 +109,26 @@ export default class webView extends Component {
           temp = item[0].match(/\d{2}/g)
           item[0] = temp[0] * 60 + Number(temp[1])
         }
-        item.forEach(i => {
-          typeof (i) == String && i.replace(/\&apos;/g, "'")
-        })
-        // console.log(item,'=================')
+        // &apos; => '
+        for (let j = 0; j < item.length; j++) {
+          if (typeof (item[j]) == 'string' && item[j].match(/&apos;/g)) {
+            item[j] = item[j].replace(/&apos;/g, "'")
+          }
+        }
+        // console.log(item, 'item====')
         return item;
       })
+      // 双语歌词
+      let lrcArr = []
+      lrcMap.forEach(v => {
+        if (typeof (v[0]) == 'number' && v[1]!=='//') {
+          lrcArr.push(v)
+        }
+      })
+      lrcArr.sort(function(a,b){
+        return a[0] - b[0]
+      })
+      lrcMap = lrcArr
       // 歌曲播放
       const audioCtx = Taro.createInnerAudioContext()
       audioCtx.autoplay = true

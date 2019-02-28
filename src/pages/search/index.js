@@ -133,6 +133,11 @@ export default class Home extends Component {
       currentPage: currentPage + 1
     }, () => this.searchSong())
   }
+  toListen(id){
+    Taro.navigateTo({
+      url: `/pages/playSong/index?id=${id}`
+    })
+  }
   // 分享
   onShareAppMessage() {
     return {
@@ -169,7 +174,7 @@ export default class Home extends Component {
             {/* 歌曲列表 */}
             <View className="list">
               {song && song.map((item, i) =>
-                <View className="listItem" key={i}>
+                <View className="listItem" key={i} onClick={this.toListen.bind(this,item.id)}>
                   <View className="leftBox">
                     <View className="songName">{item.name}</View>
                     <View className="singer">{item.singer}</View>
@@ -266,7 +271,7 @@ export default class Home extends Component {
             {/* 歌词列表 */}
             <View className="list">
               {lrc && lrc.map((item, i) =>
-                <View className="listItem" key={i}>
+                <View className="listItem" key={i} onClick={this.toListen.bind(this,item.id)}>
                   <View className="leftBox">
                     <View className="songName">{item.songname}</View>
                     <View className="singer">{item.albumname}-{item.singer[0].name}</View>
@@ -278,6 +283,7 @@ export default class Home extends Component {
                         // console.log(Item.match(reg));
                         let arr = []
                         let arr_re = []
+
                         // 不区分大小写
                         if (Item.match(reg)) {
                           let re_val = Item.match(reg)[0].split('<em>')
@@ -291,7 +297,6 @@ export default class Home extends Component {
                           re_inputVal = re_val_re[0]
                         }
 
-                        
                         if (Item.match(reg)) {
                           arr = Item.split(Item.match(reg)[0])
                           arr_re = Item.split(Item.match(reg)[0])

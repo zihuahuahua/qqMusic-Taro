@@ -48,7 +48,7 @@ export default class songList extends Component {
       songsDetail: data
     })
   }
-  navigateTo(id){
+  toListen(id){
     Taro.navigateTo({
       url: `/pages/playSong/index?id=${id}`
     })
@@ -90,7 +90,7 @@ export default class songList extends Component {
           </View>
           <View className="listCon">
             {songsDetail.songs && songsDetail.songs.map((item, index) =>
-              <View key={index} className="listItem" onClick={this.navigateTo.bind(this,item.id)}>
+              <View key={index} className="listItem" onClick={this.toListen.bind(this,item.id)}>
                 <View className="leftBox">
                   <View className="num">{index + 1}</View>
                   <View className="nameBox">
