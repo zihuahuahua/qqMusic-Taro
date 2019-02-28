@@ -1,8 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Image, Icon, Input, Swiper, SwiperItem, RichText } from '@tarojs/components'
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui'
 import './index.less'
 import home from '../../api/home'
+import U from '../../utils/utils'
+
 export default class Home extends Component {
   config = {
     navigationBarTitleText: '搜索',
@@ -76,9 +78,8 @@ export default class Home extends Component {
   }
   // 键入搜索
   onInput(e) {
-    const { detail: { value } } = e
     this.setState({
-      inputVal: value,
+      inputVal: e,
     })
   }
   // 清空
@@ -92,14 +93,14 @@ export default class Home extends Component {
     this.setState({ focus: true })
   }
   // 搜索
-  async searchSong() {
+  async searchSong(searchType) {
     const { inputVal, currentPage, type } = this.state
     const params = {
       key: '579621905',
       s: inputVal,
       type: type,
       limit: 20,
-      offset: currentPage
+      offset: searchType == 'search' ? 1 : currentPage
     }
     try {
       const { data: { data } } = await home.searchSongs(params)
@@ -147,20 +148,14 @@ export default class Home extends Component {
       <View className="container">
         {/* 搜索框 */}
         <View className="searchBar">
-          <View className="searchBarbox">
-            <Icon type="search" size="14" style={{ marginRight: '20px' }}></Icon>
-            <Input
-              placeholder="搜索歌曲、歌手、专辑"
-              className="searchInput"
-              value={inputVal}
-              onInput={this.onInput.bind(this)}
-              onFocus={this.inputFocus.bind(this)}
-            />
-            {inputVal.length > 0 &&
-              <Icon type="clear" size="14" className="clear" onClick={this.clearVal.bind(this)}></Icon>
-            }
-          </View>
-          <View className="comfirm" onClick={this.searchSong.bind(this)}>确定</View>
+          <AtSearchBar
+            placeholder="搜索歌曲、歌手、专辑"
+            actionName='搜索'
+            value={inputVal}
+            onChange={this.onInput.bind(this)}
+            onActionClick={this.searchSong.bind(this, 'search')}
+            className="search"
+          />
         </View>
         <AtTabs
           current={current}
@@ -277,18 +272,39 @@ export default class Home extends Component {
                     <View className="singer">{item.albumname}-{item.singer[0].name}</View>
                     <View className="lrcs">
                       {item.lyric.map((Item, l) => {
-                        const { inputVal } = this.state
-                        let arr = Item.split(`<em>${inputVal}</em>`)
-                        let arr_re = Item.split(`<em>${inputVal}</em>`)
-                        for (let k = 0; k < arr.length - 1; k++) {
-                          arr_re.splice(k + 1, 0, `${inputVal}`)
-                          // console.log(arr_re,'arr_re')
+                        let { inputVal } = this.state
+                        let re_inputVal = ''
+                        var reg = new RegExp(`<em>${inputVal}</em>`, 'i');
+                        // console.log(Item.match(reg));
+                        let arr = []
+                        let arr_re = []
+                        // 不区分大小写
+                        if (Item.match(reg)) {
+                          let re_val = Item.match(reg)[0].split('<em>')
+                          let re_val_re = []
+                          for (let v = 0; v < re_val.length; v++) {
+                            if (re_val[v]) {
+                              re_val_re = re_val[v].split('</em>')
+                            }
+                          }
+                          // console.log(re_val_re, '===')
+                          re_inputVal = re_val_re[0]
                         }
+
+                        
+                        if (Item.match(reg)) {
+                          arr = Item.split(Item.match(reg)[0])
+                          arr_re = Item.split(Item.match(reg)[0])
+                          for (let k = 0; k < arr.length - 1; k++) {
+                            arr_re.splice(k + 1, 0, `${re_inputVal}`)
+                          }
+                        }
+                        // console.log(arr_re,'re',re_inputVal)
                         return (
                           <View className="lrc" key={l}>
-                            {arr_re.length>0 && arr_re.map((v,j)=>
-                              <Text key={j} className={v==inputVal?'bold':''}>{v}</Text>
-                              )}
+                            {arr_re.length > 0 && arr_re.map((v, j) =>
+                              <Text key={j} className={v == re_inputVal ? 'bold' : ''}>{v}</Text>
+                            )}
                           </View>
                         )
                       }
