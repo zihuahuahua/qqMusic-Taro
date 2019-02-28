@@ -2,16 +2,16 @@ import Taro, { Component } from '@tarojs/taro'
 // import { get } from 'https';
 export default class fetch {
   static request(method, url, data, contType) {
-
+    const { type = 0 } = data
     const baseurl = 'https://api.bzqll.com'
+    const _baseurl = 'https://c.y.qq.com'
+
     let params = {
-      url: `${baseurl}${url}`,
+      url: type==0?`${baseurl}${url}`:`${_baseurl}${url}`,
       data: data,
       method: method,
       header: {
         'content-type': contType || 'application/json'
-      },fail:()=>{
-        console.log(22)
       }
     }
     return Taro.request(params)
@@ -32,7 +32,7 @@ export default class fetch {
   static post(url, data) {
     return this.request('POST', url, data)
   }
-  static jsonget(url,data) {
+  static jsonget(url, data) {
     return this.request('GET', url, data, 'application/json')
   }
 }

@@ -29,44 +29,45 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    this.getHomeList()
     this.getHotSongList()
-    // 模拟数据
-    var data = {
-      "slider": [{
-        "linkUrl": "http://y.qq.com/w/album.html?albummid=004ZGlrw3Me8eI",
-        "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155264.jpg",
-        "id": 19857
-      }, {
-        "linkUrl": "http://y.qq.com/w/album.html?albummid=003vVUT83SaF4l",
-        "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155138.jpg",
-        "id": 19858
-      }, {
-        "linkUrl": "https://y.qq.com/m/digitalbum/gold/index.html?openinqqmusic=1_video=true&id=5447522&g_f=shoujijiaodian",
-        "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155430.jpg",
-        "id": 19853
-      }, {
-        "linkUrl": "http://y.qq.com/w/album.html?albummid=000uoyVq093DIY",
-        "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155139.jpg",
-        "id": 19859
-      }, {
-        "linkUrl": "https://y.qq.com/apg/612/index.html?ADTAG=JDT&openinqqmusic=1",
-        "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155328.jpg",
-        "id": 19850
-      }],
-      "radioList": [{
-        "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_199_13_1.jpg",
-        "Ftitle": "热歌",
-        "radioid": 199
-      }, {
-        "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg",
-        "Ftitle": "一人一首招牌歌",
-        "radioid": 307
-      }]
-    }
-    this.setState({
-      banner: data.slider,
-      radioList: data.radioList
-    })
+    // // 模拟数据
+    // var data = {
+    //   "slider": [{
+    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=004ZGlrw3Me8eI",
+    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155264.jpg",
+    //     "id": 19857
+    //   }, {
+    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=003vVUT83SaF4l",
+    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155138.jpg",
+    //     "id": 19858
+    //   }, {
+    //     "linkUrl": "https://y.qq.com/m/digitalbum/gold/index.html?openinqqmusic=1_video=true&id=5447522&g_f=shoujijiaodian",
+    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155430.jpg",
+    //     "id": 19853
+    //   }, {
+    //     "linkUrl": "http://y.qq.com/w/album.html?albummid=000uoyVq093DIY",
+    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155139.jpg",
+    //     "id": 19859
+    //   }, {
+    //     "linkUrl": "https://y.qq.com/apg/612/index.html?ADTAG=JDT&openinqqmusic=1",
+    //     "picUrl": "http://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/1155328.jpg",
+    //     "id": 19850
+    //   }],
+    //   "radioList": [{
+    //     "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_199_13_1.jpg",
+    //     "Ftitle": "热歌",
+    //     "radioid": 199
+    //   }, {
+    //     "picUrl": "http://y.gtimg.cn/music/photo/radio/track_radio_307_13_1.jpg",
+    //     "Ftitle": "一人一首招牌歌",
+    //     "radioid": 307
+    //   }]
+    // }
+    // this.setState({
+    //   banner: data.slider,
+    //   radioList: data.radioList
+    // })
   }
 
   componentWillUnmount() { }
@@ -75,6 +76,21 @@ export default class Home extends Component {
   }
 
   componentDidHide() { }
+  // 首页信息
+  async getHomeList() {
+    try {
+      const params = { type: 1 }
+      const { data: { data } } = await home.getHomeList(params)
+      console.log(data, 'datatatatat')
+      this.setState({
+        banner: data.slider,
+        radioList: data.radioList
+      })
+    } catch (error) {
+      console.log(error, 'err')
+    }
+  }
+  // 热门歌单
   async getHotSongList() {
     Taro.showLoading({
       title: ''

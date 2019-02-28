@@ -25,4 +25,10 @@ export default class home extends fetch {
     const url = '/music/tencent/song'
     return this.get(url, data)
   }
+
+  // 获取首页信息
+  static getHomeList(data) {
+    const url = '/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+    return this.get(url, data)
+  }
 }
