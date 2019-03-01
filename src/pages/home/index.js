@@ -46,7 +46,6 @@ export default class Home extends Component {
     try {
       const params = { urlType: 1 }
       const { data: { data } } = await home.getHomeList(params)
-      // console.log(data, 'datatatatat')
       this.setState({
         banner: data.slider,
         radioList: data.radioList
@@ -85,7 +84,6 @@ export default class Home extends Component {
   async getHotKey() {
     const params = { urlType: 1 }
     const { data: { data: { hotkey } } } = await home.gethotkey(params)
-    // console.log(hotkey, 'datatat')
     this.setState({
       hotkey: hotkey
     })
@@ -233,7 +231,7 @@ export default class Home extends Component {
             <View className="title">热门歌单</View>
             <View className="listCon">
               {songList && songList.map((item, index) =>
-                <View className="radioItemBox" key={index} onClick={this.navigateTo.bind(this, 'songList', item.id)}>
+                <View className="radioItemBox" key={index} onClick={this.gotoOther.bind(this, 'songList', item.id)}>
                   <Image className="radioImg" src={item.pic}></Image>
                   <View className="radioText" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{item.name}</View>
                   <View className="radioAuthor">{item.creator}</View>
