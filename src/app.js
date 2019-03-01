@@ -18,7 +18,8 @@ class App extends Component {
       'pages/webview/index',
       'pages/songList/index',
       'pages/search/index',
-      'pages/playSong/index'
+      'pages/playSong/index',
+      'pages/rank/index'
     ],
     window: {
       backgroundTextStyle: 'light',

@@ -4,6 +4,7 @@ import { AtSearchBar } from 'taro-ui'
 import './index.less'
 // import "taro-ui/dist/style/components/search-bar.scss";
 import home from '../../api/home'
+import { tap } from 'rxjs/operators';
 
 export default class Home extends Component {
   config = {
@@ -120,7 +121,7 @@ export default class Home extends Component {
       })
   }
   // 页面跳转
-  navigateTo(type, data) {
+  gotoOther(type, data) {
     switch (type) {
       case 'banner':
         Taro.navigateTo({
@@ -133,6 +134,11 @@ export default class Home extends Component {
       case 'songList':
         Taro.navigateTo({
           url: `/pages/songList/index?id=${data}`
+        })
+        break;
+      case 'rank':
+        Taro.navigateTo({
+          url: `/pages/rank/index`
         })
         break;
       default:
@@ -166,7 +172,7 @@ export default class Home extends Component {
         {showHotkey &&
           <View className="whiteBoard">
             {hotkey && hotkey.map((item, index) =>
-              <View key={index} className="keyItem" onClick={this.choosekey.bind(this,item.k)}>{item.k}</View>
+              <View key={index} className="keyItem" onClick={this.choosekey.bind(this, item.k)}>{item.k}</View>
             )}
           </View>
         }
@@ -185,7 +191,7 @@ export default class Home extends Component {
                 <Image
                   src={item.picUrl}
                   className="bannerImage"
-                  onClick={this.navigateTo.bind(this, 'banner', item.linkUrl)}
+                  onClick={this.gotoOther.bind(this, 'banner', item.linkUrl)}
                 ></Image>
               </SwiperItem>
             )}
@@ -196,7 +202,7 @@ export default class Home extends Component {
               <Image src={require('../../assert/singer.png')}></Image>
               <View className="itemDesc">歌手</View>
             </View>
-            <View className="listItem">
+            <View className="listItem" onClick={this.gotoOther.bind(this, 'rank')}>
               <Image src={require('../../assert/rank.png')}></Image>
               <View className="itemDesc">排行</View>
             </View>
@@ -214,7 +220,7 @@ export default class Home extends Component {
             <View className="title">电台</View>
             <View className="listCon">
               {radioList && radioList.map((item, index) =>
-                <View className="radioItemBox" key={index} onClick={this.navigateTo.bind(this, 'radio', item.radioid)}>
+                <View className="radioItemBox" key={index} onClick={this.gotoOther.bind(this, 'radio', item.radioid)}>
                   <Image className="radioImg" src={item.picUrl}></Image>
                   <View className="radioText">{item.Ftitle}</View>
                   <Image className="PlayCenter" src={require("../../assert/play.png")}></Image>

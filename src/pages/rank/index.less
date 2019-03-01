@@ -1,0 +1,73 @@
+.container{
+  .listItem{
+    width: 680px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    background-color: #f7f7f7;
+    margin-bottom: 16px;
+    .leftBox{
+      padding: 28px;
+      box-sizing: border-box;
+      .title{
+        font-size: 28px;
+        font-weight: 600;
+      }
+      .songs{
+        margin-top: 20px;
+        .song{
+          display: block;
+          max-width: 420px;
+          font-size: 24px;
+          color: #ccc;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          .num{
+            color: #000;
+            font-weight: 600;
+          }
+          .songName{
+            margin-left: 14px;
+            color: #000;
+          }
+          .singer{
+            margin-left: 16px;
+          }
+        }
+      }
+    }
+    .rightBox{
+      position: relative;
+      .itemPic{
+        width: 200px;
+        height: 200px;
+        vertical-align: top;
+      }
+      .descBox{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+      }
+      .countBox{
+        display: flex;
+        .countIcon{
+          width: 32px;
+          height: 32px;
+        }
+        .count{
+          font-size: 24px;
+          color: #9e9e9e;
+        }
+      }
+      .playIcon{
+        width: 36px;
+        height: 36px;
+      }
+    }
+  }
+}

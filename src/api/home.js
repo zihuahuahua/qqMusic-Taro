@@ -37,4 +37,10 @@ export default class home extends fetch {
     const url = '/splcloud/fcgi-bin/gethotkey.fcg'
     return this.get(url, data)
   }
+
+  // 获取音乐排行榜
+  static getTopList(data) {
+    const url = '/v8/fcg-bin/fcg_myqq_toplist.fcg'
+    return this.get(url, data)
+  }
 }
