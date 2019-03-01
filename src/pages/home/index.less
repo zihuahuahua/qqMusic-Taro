@@ -102,6 +102,33 @@ page {
       }
     }
   }
+  .rankList{
+    position: relative;
+    top: -16px;
+    left: 50%;
+    width: 680px;
+    display: flex;
+    justify-content: space-around;
+    margin-left: -340px;
+    padding: 20px 0;
+    border-radius: 14px;
+    background-color: #fff;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+    .listItem{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      Image{
+        width: 30px;
+        height: 30px;
+      }
+      .itemDesc{
+        margin-top: 8px;
+        font-size: 24px;
+      }
+    }
+  }
 }
 .bottomPlay{
   width: 100%;
@@ -139,7 +166,6 @@ page {
   margin-top: 28px;
   display: flex;
   flex-wrap: wrap;
-  // justify-content: space-around;
   .keyItem{
     min-width: 80px;
     padding: 8px 24px;

@@ -190,6 +190,25 @@ export default class Home extends Component {
               </SwiperItem>
             )}
           </Swiper>
+          {/* 榜单 */}
+          <View className="rankList">
+            <View className="listItem">
+              <Image src={require('../../assert/singer.png')}></Image>
+              <View className="itemDesc">歌手</View>
+            </View>
+            <View className="listItem">
+              <Image src={require('../../assert/rank.png')}></Image>
+              <View className="itemDesc">排行</View>
+            </View>
+            <View className="listItem">
+              <Image src={require('../../assert/sort.png')}></Image>
+              <View className="itemDesc">分类歌单</View>
+            </View>
+            <View className="listItem">
+              <Image src={require('../../assert/radio.png')}></Image>
+              <View className="itemDesc">电台</View>
+            </View>
+          </View>
           {/* 电台 */}
           <View className="RSList">
             <View className="title">电台</View>
