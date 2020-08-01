@@ -1,5 +1,5 @@
 const config = {
-  projectName: 'qifu-taro',
+  projectName: 'qqMusic-taro',
   date: '2019-1-15',
   designWidth: 750,
   deviceRatio: {
@@ -18,7 +18,8 @@ const config = {
       plugins: [
         'transform-decorators-legacy',
         'transform-class-properties',
-        'transform-object-rest-spread'      ]
+        'transform-object-rest-spread'
+      ]
     }
   },
   defineConstants: {

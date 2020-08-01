@@ -143,7 +143,7 @@ export default class Home extends Component {
     };
   }
   render() {
-    const { inputVal, song, album, list, mv, user, lrc } = this.state
+    const { inputVal, song, album, list, mv, user, lrc,current } = this.state
     const tabList = [{ title: '音乐' }, { title: '专辑' }, { title: '歌单' }, { title: 'MV' }, { title: '用户' }, { title: '歌词' }]
     return (
       <View className="container">
